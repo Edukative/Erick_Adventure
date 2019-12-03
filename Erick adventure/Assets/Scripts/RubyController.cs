@@ -8,15 +8,22 @@ public class RubyController : MonoBehaviour
     Rigidbody2D rubyRB2D; // the player's Rigidboody
 
     public int maxHealth = 5;
-    int currentHealth;
+    public int currentHealth;
 
+
+    float invisibleTimer;
+    public float timeInvisible = 2.0f;
+    bool isInvencible;
+    
+ 
+ 
     // Start is called before the first frame update
     void Start()
     {
         rubyRB2D = GetComponent<Rigidbody2D>(); // Get the player's Rigidbody
 
         currentHealth = maxHealth; // the current health is the max healt available to the player
-        currentHealth = 1;
+     
     }
 
     // Update is called once per frame
@@ -39,11 +46,17 @@ public class RubyController : MonoBehaviour
 
         Debug.Log("horizontal" + horizontal); // See the values are you sending when pressing the keys
         Debug.Log("vertical" + vertical);
+
+        if (isInvencible)
+        {
+            invicibleTimer -= Time.deltaTime;
+
+        }
     }
 
     public void ChangeHealth(int amount)
     {
-        currentHealth = Mathf.Clamp(currentHealth * amount, 0, maxHealth);
+        currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
 
         // limits the number between 0 and the max health
         Debug.Log(currentHealth + "/" + maxHealth);

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    void OnTriggerEnter2D (Collider2D other)
+    void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log("object that entered the trigger: " + other);
 
@@ -14,17 +14,19 @@ public class Health : MonoBehaviour
         if (controller != null) // if the controller retrieved is not empty
         {
             // ! the exclamation is a negation value
+            if (controller.currentHealth < controller.maxHealth) // if the health is not at the maximum
+            {
+                controller.ChangeHealth(1);
+                // call the health function and add 1 to the health of the player
 
-            controller.ChangeHealth(1);
-            // call the health function and add 1 to the health of the player
-
-            Destroy(gameObject); // Destroys all the game object and this script too!
+                Destroy(gameObject); // Destroys all the game object and this script too!
+            }
+            
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
+
+
+    
 }
