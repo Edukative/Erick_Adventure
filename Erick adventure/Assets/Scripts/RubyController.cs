@@ -10,8 +10,8 @@ public class RubyController : MonoBehaviour
     public int maxHealth = 5;
     public int currentHealth;
 
-
-    float invisibleTimer;
+    //timer values
+    float InvincibleTimer;
     public float timeInvisible = 2.0f;
     bool isInvencible;
     
@@ -44,18 +44,29 @@ public class RubyController : MonoBehaviour
         //transform.position = position; // saves this position to the current one
         rubyRB2D.MovePosition(position);
 
-        Debug.Log("horizontal" + horizontal); // See the values are you sending when pressing the keys
-        Debug.Log("vertical" + vertical);
-
-        if (isInvencible)
+        if (isInvencible) // invincible because the player has collided with damage
         {
-            invicibleTimer -= Time.deltaTime;
+            InvincibleTimer -= Time.deltaTime; // count down the timer
+            if (InvincibleTimer < 0) // the timer ended
+            {
+                isInvencible = false; // the player is vulnerable again
+            }
 
         }
     }
 
     public void ChangeHealth(int amount)
     {
+
+        if (amount < 0) // as is inferior to 0, it means damage
+        {
+            if (isInvencible) // already invincible? Don't do anything
+            {
+                return;
+            }
+            isInvencible = true; // make the player invincible
+            InvincibleTimer = timeInvisible; // resets the timer to the public value
+        }   
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
 
         // limits the number between 0 and the max health
