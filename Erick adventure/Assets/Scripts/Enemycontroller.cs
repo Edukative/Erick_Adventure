@@ -23,7 +23,7 @@ public class Enemycontroller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timer -= Time.deltaTime; // make the timer go to 0
+        timer -= Time.deltaTime; // make the timer go to 0 accordind to the time.
         
         if (timer < 0)
         {
@@ -36,7 +36,7 @@ public class Enemycontroller : MonoBehaviour
             // same as isVertical == true;
             position.y = position.y + Time.deltaTime * speed * direction;
         }
-        else
+        else // else condition,it wil go horizontally
         {
             position.x = position.x + Time.deltaTime * speed * direction;
         }
