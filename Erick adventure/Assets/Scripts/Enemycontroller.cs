@@ -42,20 +42,40 @@ public class EnemyController : MonoBehaviour
             Debug.Log("index" + i + "Transform" + localNodes[i]);
         }
 
+        currentNode = 0;
+        nextNode = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        timer -= Time.deltaTime; // make the timer go to 0 accordind to the time.
+        /*timer -= Time.deltaTime; // make the timer go to 0 accordind to the time.
         
         if (timer < 0) // reaches 0
         {
             direction = -direction; // turns the direction into negative
             timer = changeTime; // resets the timer
+        }*/
+        // Vector2 position = rb2D.position; // get the current position of the enemy
+        Vector2 wayPointDirection = localNodes[nextNode] - rb2D.position;
+        UpdateAnimations(wayPointDirection.normalized);
+        float dist = speed * Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log(wayPointDirection.sqrMagnitude);
         }
-        Vector2 position = rb2D.position; // get the current position of the enemy
-        if (isVertical) // if the enemy walks vertically
+        if (wayPointDirection.sqrMagnitude < dist * dist) // if the enemy arrived to the waypoint
+        {
+            dist = wayPointDirection.magnitude;
+            currentNode = nextNode; // it arrived to the waypoint so it turns to the new one
+            nextNode += 1;
+            if (nextNode >= localNodes.Length) // it reached the end
+            {
+                nextNode = 0; // it loops again and goes to the first waypoint
+            }
+        }
+
+        /*if (isVertical) // if the enemy walks vertically
         {
             // same as isVertical == true;
             position.y = position.y + Time.deltaTime * speed * direction;
@@ -69,14 +89,21 @@ public class EnemyController : MonoBehaviour
             animator.SetFloat("Move X", direction);
             animator.SetFloat("Move Y", 0); // keep untouched since it isn't this axis
 
-        }
-         // sum the position x with the speed and the time
+        }*/
+        // sum the position x with the speed and the time
+        velocity = wayPointDirection.normalized * dist;
 
-        rb2D.MovePosition(position); // apply the previous sum position to the enemy's rigidbody
+        rb2D.MovePosition(rb2D.position + velocity); // apply the previous sum position to the enemy's rigidbody
 
     }
 
-    void OnCollisionEnter2D(Collision2D other)
+    void UpdateAnimations (Vector2 direction)
+    {
+        animator.SetFloat("Move X", direction.x);
+        animator.SetFloat("Move Y", direction.y);
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
     {
         RubyController player = other.gameObject.GetComponent<RubyController>(); // get the script from the player
 
