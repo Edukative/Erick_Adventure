@@ -17,6 +17,7 @@ public class EnemyController : MonoBehaviour
     Animator animator;
 
     // waypoint values
+    public GameObject waypoints;
     public Vector2[] localNodes;
     //private Vector2[] worldNodes;
     int currentNode;
@@ -29,13 +30,13 @@ public class EnemyController : MonoBehaviour
         rb2D = GetComponent<Rigidbody2D>(); // get the enemy's RigidBody
         timer = changeTime; // set the timer
         animator = GetComponent<Animator>(); // get the same animator
-        // waypoint stuff
-        localNodes = new Vector2[transform.childCount];
+        // waypoint stuffs
+        localNodes = new Vector2[waypoints.transform.childCount];
 
-        for (int i = 0; i <= transform.childCount - 1; ++i)
+        for (int i = 0; i <= waypoints.transform.childCount - 1; ++i)
         {
             // from 0, to the lenght of the list, while is not there, sum 1 to the counter
-            Transform child = transform.GetChild(i).transform;
+            Transform child = waypoints.transform.GetChild(i).transform;
             // get the transform of the child in the loop
             localNodes[i] = new Vector2(child.transform.position.x, child.transform.position.y);
             // put in the index a new Vector that is the position of the child.
