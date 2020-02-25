@@ -19,6 +19,11 @@ public class RubyController : MonoBehaviour
     Animator playerAnim;
     Vector2 lookDirection = new Vector2(1, 0); // the direction is facing the player in the scene
 
+   
+    // projectile values
+    public GameObject projectileprefab;
+    public float projectileForce = 300;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -90,5 +95,21 @@ public class RubyController : MonoBehaviour
         // limits the number between 0 and the max health
         Debug.Log(currentHealth + "/" + maxHealth);
     }
+
+    void Launch()
+    {
+        GameObject projectileObject = Instantiate(projectileprefab, rubyRB2D.position + Vector2.up * 0.5f, Quaternion.identity);
+        // spawns a projetile and stores it inside a GameObject variable
+        Projectile projectile = projectileObject.GetComponent < Projectile >();
+
+        projectile.Launch(lookDirection, projectileForce); // calls the function as long as it is public
+
+        playerAnim.SetTrigger("Launch"); // Sets the shooting animation
+
+    }
+
+
+
+
 }
         
