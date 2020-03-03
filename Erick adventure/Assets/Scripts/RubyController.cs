@@ -74,8 +74,16 @@ public class RubyController : MonoBehaviour
             {
                 isInvencible = false; // the player is vulnerable again
             }
-
         }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Launch();
+        }
+
+
+
+
     }
 
     public void ChangeHealth(int amount)

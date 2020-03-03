@@ -6,8 +6,7 @@ public class Projectile : MonoBehaviour
 {
     Rigidbody2D projectileRB2D;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake() // Awake is called just before the game starts
     {
         projectileRB2D = GetComponent<Rigidbody2D>(); // get the RigidBody
     }
@@ -15,7 +14,10 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (transform.position.magnitude > 1000)
+        {
+            Destroy(gameObject); // destroys the projectile
+        }
     }
 
     public void Launch(Vector2 direction, float force)
@@ -27,12 +29,16 @@ public class Projectile : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other)
     {
         Debug.Log("Projectile Collision with" + other.gameObject);
+
+        EnemyController e = other.collider.GetComponent<EnemyController>();
+        if (e != null)
+        {
+            e.Fix();
+        }
+
         Destroy(gameObject); // destroys the projectile
+
+
     }
-
-
-
-
-
 }
 

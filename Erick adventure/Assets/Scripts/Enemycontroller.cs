@@ -24,6 +24,9 @@ public class EnemyController : MonoBehaviour
     int nextNode;
     Vector2 velocity;
 
+    // projectiile values
+    bool broken = true;
+
     // Start is called befor the first frame update
     void Start()
     {
@@ -112,8 +115,11 @@ public class EnemyController : MonoBehaviour
         {
             player.ChangeHealth(-1); // damages the player
         }
-
-
     }
 
+    public void Fix()
+    {
+        broken = false; // yaaay it's fixed!
+        rb2D.simulated = false; // the enemy stops moving
+    }
 }
